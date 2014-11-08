@@ -26,10 +26,12 @@ optional arguments:
  
 ```
 
+If the `-s` option is not specified, all episodes will be downloaded.
+
 ## How to find the Videoset ID
 
 1. Open [playlist.json](playlist.json) in a text editor.
-2. Search for the name of your show.
+2. Search for the name of the desired show/series.
 3. Find the corresponding `vsetid` value.
 
 For example, the videoset ID of the show 《打狗棍》 is `VSET100174517074`.
@@ -37,6 +39,8 @@ For example, the videoset ID of the show 《打狗棍》 is `VSET100174517074`.
 ## Known issues/limitations
 
 * Unicode characters are not displayed correctly in Windows command prompts.
+* CBoxToGo currently uses a regex of the form `第([0-9]+)集` to determine the episode number if the `-s` option is used.
+If the episode title does not conform to this format, it will not be downloaded.
 
 ## Support
 
