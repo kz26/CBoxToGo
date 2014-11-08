@@ -30,7 +30,7 @@ If the `-s` option is not specified, all episodes will be downloaded.
 
 ## How to find the Videoset ID
 
-1. Open [playlist.json](playlist.json) in a text editor.
+1. Open [playlist.json](https://github.com/kz26/CBoxToGo/blob/master/playlist.json?raw=true) in a text editor.
 2. Search for the name of the desired show/series.
 3. Find the corresponding `vsetid` value.
 
