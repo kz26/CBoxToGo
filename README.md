@@ -15,8 +15,8 @@ $ python CBoxToGo.py --help
 usage: CBoxToGo.py [-h] [-s S] [-l L] videoset_id output_dir
 
 positional arguments:
-  videoset_id  Videoset ID of the series (vsetid attributes in playlist.json)
-  output_dir   Output directory of downloaded episodes
+  videoset_id  Videoset ID of the show/series (vsetid attributes in playlist.json)
+  output_dir   Output directory for downloaded episodes (will be created if it does not exist)
 
 optional arguments:
   -h, --help   show this help message and exit

@@ -24,7 +24,7 @@ import sys
 from urllib.parse import urlparse
 import requests
 
-_VERSION = '1.0.0'
+_VERSION = '1.0.1'
 
 if __name__ == '__main__':
 	def csl(s):
@@ -49,12 +49,12 @@ if __name__ == '__main__':
 		else:
 			raise argparse.ArgumentTypeError("%s is not a valid wget rate limit" % (s))
 
-	parser = argparse.ArgumentParser(description='Download series/episodes from China Network Television (CNTV)',
+	parser = argparse.ArgumentParser(description='Download shows/series from China Network Television (CNTV)',
 		epilog="version %s" % (_VERSION))
 	parser.add_argument('-s', type=csl, help='comma-separated list of episodes and/or ranges to download, e.g. 1,2,4-8')
 	parser.add_argument('-l', type=wget_rate, help='download rate limit, passed to wget --limit-rate=')
-	parser.add_argument('videoset_id', help='Videoset ID of the series (vsetid attributes in playlist.json)')
-	parser.add_argument('output_dir', help='Output directory of downloaded episodes')
+	parser.add_argument('videoset_id', help='Videoset ID of the show/series (vsetid attributes in playlist.json)')
+	parser.add_argument('output_dir', help='Output directory for downloaded episodes (will be created if it does not exist)')
 
 	args = parser.parse_args()
 
