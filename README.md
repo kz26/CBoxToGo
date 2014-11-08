@@ -26,6 +26,14 @@ optional arguments:
  
 ```
 
+## How to find the Videoset ID
+
+1. Open [playlist.json](playlist.json) in a text editor.
+2. Search for the name of your show.
+3. Find the corresponding `vsetid` value.
+
+For example, the videoset ID of the show 《打狗棍》 is `VSET100174517074`.
+
 ## Known issues/limitations
 
 * Unicode characters are not displayed correctly in Windows command prompts.
