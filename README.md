@@ -36,7 +36,7 @@ optional arguments:
 
 ## How to find the Videoset ID
 
-1. Browse to [browse to http://serv.cbox.cntv.cn/pages/live/index.shtml](http://serv.cbox.cntv.cn/pages/live/index.shtml).
+1. Browse to [http://serv.cbox.cntv.cn/pages/live/index.shtml](http://serv.cbox.cntv.cn/pages/live/index.shtml).
 2. Hover over the series/movie/video you want to watch until the black popup appears.
 3. Scroll to the (first) item you want to watch, right click, and use the "Inspect Element" feature of your browser.
 4. Look at the `onclick` attribute. The first argument to the `play` function is the **videoset ID**, while the second argument is the **video ID** of that particular video/episode.
