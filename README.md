@@ -8,15 +8,15 @@
 
 ```
 $ python CBoxToGo.py --help
-usage: CBoxToGo.py [-h] [--episodes EPISODES] [--rate-limit RATE_LIMIT]
-                   [--video-ids VIDEO_IDS]
+usage: CBoxToGo.py [-h] [--episodes EPISODES] [--video-ids VIDEO_IDS]
+                   [--rate-limit RATE_LIMIT]
                    videoset_id output_dir
 
 Download videos from China Network Television (CNTV)
 
 positional arguments:
-  videoset_id           Videoset ID of the show/series
-  output_dir            Output directory for downloaded episodes (will be
+  videoset_id           Videoset ID of the series/movie/video
+  output_dir            Output directory for downloaded videos (will be
                         created if it does not exist)
 
 optional arguments:
