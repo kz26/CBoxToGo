@@ -24,7 +24,7 @@ import sys
 from urllib.parse import urlparse
 import requests
 
-_VERSION = '1.0.1'
+_VERSION = '1.1.0'
 
 if __name__ == '__main__':
 	def csl(s):
@@ -43,17 +43,22 @@ if __name__ == '__main__':
 						vals.add(i)
 		return vals
 
+	def vid_list(s):
+		return set(s.split(','))
+
 	def wget_rate(s):
 		if re.match(r'[0-9]+[km]?$', s, re.IGNORECASE):
 			return s
 		else:
 			raise argparse.ArgumentTypeError("%s is not a valid wget rate limit" % (s))
 
-	parser = argparse.ArgumentParser(description='Download shows/series from China Network Television (CNTV)',
+	parser = argparse.ArgumentParser(description='Download videos from China Network Television (CNTV)',
 		epilog="version %s" % (_VERSION))
-	parser.add_argument('-s', type=csl, help='comma-separated list of episodes and/or ranges to download, e.g. 1,2,4-8')
-	parser.add_argument('-l', type=wget_rate, help='download rate limit, passed to wget --limit-rate=')
-	parser.add_argument('videoset_id', help='Videoset ID of the show/series (vsetid attributes in playlist.json)')
+	parser.add_argument('--episodes', '-e', type=csl,
+		help='comma-separated list of episodes and/or episode ranges to download, e.g. 1,2,4-8')
+	parser.add_argument('--video-ids', '-i', type=vid_list, help='comma-separated list of video IDs to download')
+	parser.add_argument('--rate-limit', '-l', type=wget_rate,  help='download rate limit, passed to wget --limit-rate=')
+	parser.add_argument('videoset_id', help='Videoset ID of the show/series')
 	parser.add_argument('output_dir', help='Output directory for downloaded episodes (will be created if it does not exist)')
 
 	args = parser.parse_args()
@@ -69,16 +74,18 @@ if __name__ == '__main__':
 		}, headers={'User-Agent': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.2; WOW64; Trident/7.0; .NET4.0E; .NET4.0C; Tablet PC 2.0)'}
 	)
 	data = r.json()
-	if args.s:
+	if args.episodes:
 		el = []
 		for e in data['video']:
 			m = re.search(r'第([0-9]+)集', e['t'])
-			if m and int(m.group(1)) in args.s:
+			if m and int(m.group(1)) in args.episodes:
 				el.append(e)
+	elif args.video_ids:
+		el = [e for e in data['video'] if e['vid'] in args.video_ids]
 	else:
 		el = data['video']
 	videoset = data['videoset']['0']
-	sys.stderr.write("Downloaded episode list for %s.\n" % (videoset['name']))
+	sys.stderr.write("Downloaded video list for %s.\n" % (videoset['name']))
 	for e in el:
 		sys.stderr.write("Downloading %s...\n" % (e['t']))
 		r = requests.get('http://vdn.apps.cntv.cn/api/getHttpVideoInfo.do', params={
@@ -89,8 +96,8 @@ if __name__ == '__main__':
 		for c in data['video']['chapters']:
 			c['fn'] = urlparse(c['url']).path.split('/')[-1]
 			wget_cmd = ['wget', '-nv', '--show-progress']
-			if args.l:
-				wget_cmd.append("--limit-rate=%s" % (args.l))
+			if args.rate_limit:
+				wget_cmd.append("--limit-rate=%s" % (args.rate_limit))
 			wget_cmd.extend(['-U', 'Get_File_Size_Session', '-O', c['fn'], c['url']])
 			subprocess.Popen(wget_cmd).wait()
 		sys.stderr.write("%s: concatenating %s pieces...\n" % (e['t'], len(data['video']['chapters'])))
