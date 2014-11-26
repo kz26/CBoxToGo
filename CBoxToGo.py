@@ -58,8 +58,8 @@ if __name__ == '__main__':
 		help='comma-separated list of episodes and/or episode ranges to download, e.g. 1,2,4-8')
 	parser.add_argument('--video-ids', '-i', type=vid_list, help='comma-separated list of video IDs to download')
 	parser.add_argument('--rate-limit', '-l', type=wget_rate,  help='download rate limit, passed to wget --limit-rate=')
-	parser.add_argument('videoset_id', help='Videoset ID of the show/series')
-	parser.add_argument('output_dir', help='Output directory for downloaded episodes (will be created if it does not exist)')
+	parser.add_argument('videoset_id', help='Videoset ID of the series/movie/video')
+	parser.add_argument('output_dir', help='Output directory for downloaded videos (will be created if it does not exist)')
 
 	args = parser.parse_args()
 

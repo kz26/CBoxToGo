@@ -1,7 +1,3 @@
-# CBoxToGo
-
-Command-line tool for downloading series/episodes from China Network Television (CNTV), based on reverse engineering of [CBox](http://cbox.cntv.cn/)
-
 ## Requirements
 
 * Python 3.2+
