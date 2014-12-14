@@ -24,7 +24,7 @@ import sys
 from urllib.parse import urlparse
 import requests
 
-_VERSION = '1.1.0'
+_VERSION = '1.1.1'
 
 if __name__ == '__main__':
 	def csl(s):
@@ -77,9 +77,15 @@ if __name__ == '__main__':
 	if args.episodes:
 		el = []
 		for e in data['video']:
-			m = re.search(r'第([0-9]+)集', e['t'])
-			if m and int(m.group(1)) in args.episodes:
-				el.append(e)
+			exps = [
+				r'第([0-9]+)集',
+				r' ([0-9]+)$'
+			]
+			for exp in exps:
+				m = re.search(exp, e['t'])
+				if m and int(m.group(1)) in args.episodes:
+					el.append(e)
+					break
 	elif args.video_ids:
 		el = [e for e in data['video'] if e['vid'] in args.video_ids]
 	else:
@@ -95,23 +101,18 @@ if __name__ == '__main__':
 		data = r.json()
 		for c in data['video']['chapters']:
 			c['fn'] = urlparse(c['url']).path.split('/')[-1]
-			wget_cmd = ['wget', '-nv', '--show-progress']
+			wget_cmd = ['wget']
 			if args.rate_limit:
 				wget_cmd.append("--limit-rate=%s" % (args.rate_limit))
 			wget_cmd.extend(['-U', 'Get_File_Size_Session', '-O', c['fn'], c['url']])
 			subprocess.Popen(wget_cmd).wait()
 		sys.stderr.write("%s: concatenating %s pieces...\n" % (e['t'], len(data['video']['chapters'])))
-		concat_fn = "concat_%s.txt" % (e['order'])
+		concat_fn = "concat_%s_%s.txt" % (args.videoset_id, e['order'])
 		with open(concat_fn, 'w') as f:
 			for c in data['video']['chapters']:
 				f.write("file '%s'\n" % (c['fn']))
-		subprocess.Popen(('ffmpeg', '-hide_banner', '-loglevel', 'error', '-f', 'concat', '-i', concat_fn, '-c', 'copy', e['t'] + '.mp4')).wait()
+		subprocess.Popen(('ffmpeg', '-y', '-f', 'concat', '-i', concat_fn, '-c', 'copy', e['t'] + '.mp4')).wait()
 		for c in data['video']['chapters']:
 			os.remove(c['fn'])
 		os.remove(concat_fn)
 		sys.stderr.write("%s: done.\n" % (e['t']))
-
-
-
-
-
