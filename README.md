@@ -45,8 +45,7 @@ The `--episodes` option takes precedence over `--video-ids`; if `--episodes` is 
 ## Known issues/limitations
 
 * Unicode characters are not displayed correctly in Windows command prompts.
-* CBoxToGo currently uses a regex of the form `第([0-9]+)集` to determine the episode number if the `--episodes` option is used.
-If the episode title does not conform to this format, it will not be downloaded.
+* CBoxToGo currently uses regexes of the form `第([0-9]+)集` and ` ([0-9]+)$` to determine the episode number if the `--episodes` option is used. If the episode title does not conform to this format, it will not be downloaded.
 
 ## Support
 
