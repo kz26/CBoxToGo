@@ -2,7 +2,8 @@
 
 * Python 3.2+
 * requests
-* ffmpeg, wget in system path
+* ffmpeg 1.1+
+* wget
 
 ## Usage
 
